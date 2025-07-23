@@ -73,7 +73,6 @@ function chooseDogType(duration) {
 }
 
 
-// 🐕 Dog 类
 class Dog {
   constructor(type) {
     this.type = type;
@@ -81,9 +80,10 @@ class Dog {
     this.frameIndex = 0;
     this.lastFrameTime = millis();
     this.frameInterval = 150;
-    this.x = -100; // ✅ 从画面左边出现
-    this.y = height * 0.8; // ✅ 保持排队直线走
-    this.speed = random(1.5, 2.5); // ✅ 向右走
+
+    this.x = width + 100; // ✅ 从画面右侧外部出现
+    this.y = height * 0.65; // ✅ 控制狗狗竖直位置（画面中间稍偏下）
+    this.speed = random(1.5, 2.5) * -1; // ✅ 向左移动（速度是负数）
   }
 
   update() {
@@ -98,10 +98,9 @@ class Dog {
   display() {
     let img = this.frames[this.frameIndex];
     if (img) {
-      let scaleFactor = min(1, width / 1920);
+      let scaleFactor = min(1, width / 1920); // ✅ 适配大屏缩放
       image(img, this.x, this.y, img.width * scaleFactor, img.height * scaleFactor);
     }
   }
 }
 
- 
