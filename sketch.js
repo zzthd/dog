@@ -81,9 +81,9 @@ class Dog {
     this.lastFrameTime = millis();
     this.frameInterval = 150;
 
-    this.x = width - 100; // ✅ 从画面右侧外部出现
-    this.y = height * 0.5; // ✅ 控制狗狗竖直位置（画面中间稍偏下）
-    this.speed = random(1.5, 2.5) * 1; // ✅ 向左移动（速度是负数）
+    this.x = width + 100; // ✅ 画面右外侧出生
+    this.y = height * 0.65; // ✅ 画面中间偏下一条线
+    this.speed = -random(1.5, 2.5); // ✅ 向左移动（负值！）
   }
 
   update() {
@@ -98,9 +98,8 @@ class Dog {
   display() {
     let img = this.frames[this.frameIndex];
     if (img) {
-      let scaleFactor = min(1, width / 1920); // ✅ 适配大屏缩放
+      let scaleFactor = min(1, width / 1920); // ✅ 自动适配大屏
       image(img, this.x, this.y, img.width * scaleFactor, img.height * scaleFactor);
     }
   }
 }
-
