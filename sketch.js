@@ -27,9 +27,9 @@ function preload() {
   // 你可以取消注释来加载全部四种
   loadDogFrames("short", 2);
   loadDogFrames("mid", 2);
-   loadDogFrames("middle", 2);
+  loadDogFrames("middle", 2);
   loadDogFrames("long", 2);
-}
+} // end of preload
 
 // 统一的加载函数
 function loadDogFrames(type, frameCount) {
@@ -37,14 +37,14 @@ function loadDogFrames(type, frameCount) {
     let filename = `${type}-${String(i).padStart(2, '0')}.png`;
     dogFrames[type].push(loadImage(filename));
   }
-}
+} // end of loadDogFrames
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   imageMode(CENTER);
   mic = new p5.AudioIn();
   mic.start();
-}
+} // end of setup
 
 function draw() {
   background(255);
@@ -52,8 +52,6 @@ function draw() {
   let now = millis();
 
   // --- 核心逻辑：检测单次吹气的开始和结束 ---
-  // 这是对你之前代码最重要的修改，它解决了“不管怎么吹都只出现最短的狗”的问题
-
   // 1. 检测到开始吹气
   if (vol > BLOW_THRESHOLD && !isBlowing) {
     isBlowing = true;
@@ -77,7 +75,6 @@ function draw() {
     }
 
     // 创建一只新狗并添加到数组中
-    // 确保我们加载过这种类型的图片
     if (dogFrames[dogType] && dogFrames[dogType].length > 0) {
         dogs.push(new Dog(dogType));
     }
@@ -88,8 +85,8 @@ function draw() {
     dogs[i].update();
     dogs[i].display();
 
-    // 如果狗走出画面，就将它从数组中移除，以节省内存
-    if (dogs[i].x < -200) { // 修改判断条件，因为狗现在从右向左走
+    // 如果狗走出画面，就将它从数组中移除
+    if (dogs[i].x < -200) {
       dogs.splice(i, 1);
     }
   }
@@ -102,7 +99,7 @@ function draw() {
     fill(255, 0, 0);
     text(`正在吹气... 已持续: ${floor(now - blowStartTime)} ms`, 20, 40);
   }
-}
+} // end of draw
 
 
 // 🐕 Dog 类
@@ -113,38 +110,25 @@ class Dog {
     this.frameIndex = 0;
     this.lastFrameTime = millis();
     this.frameInterval = 150; // 脚动频率
-    
-    // 从屏幕右边出现
     this.x = width + 100;
-
-    // 问题修复 1: 出现在画面正中间
-    // 将y坐标设置为画布高度的一半
     this.y = height / 2; 
-    
-    this.speed = random(1.2, 2.5); // 每只狗速度不一样
-  }
+    this.speed = random(1.2, 2.5);
+  } // end of constructor
 
   update() {
-    // 让狗从右向左移动
     this.x -= this.speed;
 
-    // 脚动切换
     if (millis() - this.lastFrameTime > this.frameInterval) {
       this.frameIndex = (this.frameIndex + 1) % this.frames.length;
       this.lastFrameTime = millis();
     }
-  }
+  } // end of update
 
   display() {
     let img = this.frames[this.frameIndex];
     if (img) {
-      // 适配不同屏幕尺寸
       let scaleFactor = min(1, height / 1080);
-      
-      // 问题修复 2: 倒着走
-      // 移除了之前的水平翻转。这假设你的图片素材本身就是朝左画的。
-      // 如果移除翻转后，小狗变成了朝右走，请告诉我，我会把它加回来。
       image(img, this.x, this.y, img.width * scaleFactor, img.height * scaleFactor);
     }
-  }
-}
+  } // end of display
+} // end of Dog class
