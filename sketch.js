@@ -81,9 +81,9 @@ class Dog {
     this.lastFrameTime = millis();
     this.frameInterval = 150;
 
-    this.x = width + 100; // ✅ 从画面右侧外部出现
-    this.y = height * 0.65; // ✅ 控制狗狗竖直位置（画面中间稍偏下）
-    this.speed = random(1.5, 2.5) * -1; // ✅ 向左移动（速度是负数）
+    this.x = width - 100; // ✅ 从画面右侧外部出现
+    this.y = height * 0.5; // ✅ 控制狗狗竖直位置（画面中间稍偏下）
+    this.speed = random(1.5, 2.5) * 1; // ✅ 向左移动（速度是负数）
   }
 
   update() {
