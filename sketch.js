@@ -94,6 +94,17 @@ function draw() {
     }
   }
   
+  // 在左上角添加一些调试信息
+  fill(0);
+  textSize(16);
+  text(`当前音量: ${vol.toFixed(3)}`, 20, 20);
+  if (isBlowing) {
+    fill(255, 0, 0);
+    text(`正在吹气... 已持续: ${floor(now - blowStartTime)} ms`, 20, 40);
+  }
+}
+
+
 // 🐕 Dog 类
 class Dog {
   constructor(type) {
